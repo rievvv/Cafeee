@@ -1,0 +1,17 @@
+# Deploy uji coba ke Render langsung dari GitHub (Blueprint).
+services:
+  - type: web
+    name: cafeee
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python manage.py demo && gunicorn -w 1 --threads 4 -b 0.0.0.0:$PORT app:app
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.3
+      - key: CAFEEE_HTTPS
+        value: "1"
+      - key: CAFEEE_ADMIN_USER
+        value: admin
+      - key: CAFEEE_ADMIN_PASS
+        sync: false   # diisi sendiri saat membuat Blueprint

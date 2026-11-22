@@ -58,6 +58,17 @@ Setiap `push` juga menjalankan uji otomatis lewat **GitHub Actions** (tab **Acti
 
 Catatan: data di Codespaces bersifat uji coba dan bisa hilang jika codespace dihapus. Port 5000 bersifat privat (hanya Anda yang bisa membuka) kecuali Anda ubah sendiri menjadi publik.
 
+### Atau: buka lewat link publik (Render, gratis)
+
+Penting: alamat `username.github.io/Cafeee` (GitHub Pages) hanya menampilkan README ini, bukan aplikasinya. Matikan di **Settings, Pages, Unpublish** agar tidak membingungkan. Untuk link yang benar-benar membuka aplikasi:
+
+1. Daftar di render.com dengan akun GitHub.
+2. **New, Blueprint**, pilih repository `Cafeee`. Render membaca `render.yaml` otomatis.
+3. Saat diminta, isi `CAFEEE_ADMIN_PASS` dengan kata sandi admin pilihan Anda (minimal 8 karakter).
+4. Tunggu build selesai. Aplikasi terbuka di `https://cafeee-xxxx.onrender.com/login` dengan data demo (cafe: `berkah` / `berkah123`).
+
+Setiap `git push` ke `main` otomatis memperbarui situs. Catatan paket gratis: server tidur setelah 15 menit tanpa kunjungan (buka pertama terasa lambat), dan data **hilang** setiap server di-deploy ulang. Cukup untuk uji coba, bukan untuk pelanggan sungguhan.
+
 ## Wajib sebelum menulis kartu NFC: pasang di internet dengan domain tetap
 
 Link yang ditulis ke kartu memuat nama domain. **Domain tidak bisa diubah setelah kartu dibagikan**, jadi:
@@ -65,7 +76,6 @@ Link yang ditulis ke kartu memuat nama domain. **Domain tidak bisa diubah setela
 1. Beli domain yang akan dipakai selamanya (misalnya `cafeee.id`).
 2. Pasang di VPS atau layanan hosting Python. Contoh produksi:
    ```bash
-   pip install gunicorn
    CAFEEE_HTTPS=1 gunicorn -w 2 -b 127.0.0.1:8000 app:app
    ```
    Letakkan di belakang Caddy atau Nginx agar ada HTTPS otomatis.
