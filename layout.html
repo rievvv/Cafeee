@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% set area = 'admin' if request.path.startswith('/admin') else 'cafe' %}
+{% set ep = request.endpoint or '' %}
+{% block bodyclass %}app{% endblock %}
+{% block body %}
+{% if area == 'cafe' and viewing %}
+<div class="banner noprint">
+  <span>Mode admin: Anda sedang melihat dashboard {{ g.cafe.name }}.</span>
+  <form method="post" action="{{ url_for('admin_cafe_leave') }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="btn sm">Kembali ke panel admin</button></form>
+</div>
+{% endif %}
+<aside class="rail">
+  <a class="brand" href="{{ url_for('admin_home' if area == 'admin' else 'dash_home') }}">Cafee<i>e</i></a>
+  <div class="who">
+    {% if area == 'admin' %}Panel pemilik Cafeee{% else %}{{ g.cafe.name }}{% endif %}
+  </div>
+  {% if area == 'admin' %}
+    <a class="nav {{ 'on' if ep == 'admin_home' }}" href="{{ url_for('admin_home') }}">Ringkasan</a>
+    <a class="nav {{ 'on' if ep in ('admin_tags','admin_tag','admin_qrsheet') }}" href="{{ url_for('admin_tags') }}">Kartu dan QR</a>
+    <a class="nav {{ 'on' if ep == 'admin_cafes' }}" href="{{ url_for('admin_cafes') }}">Cafe pelanggan</a>
+    <a class="nav {{ 'on' if ep == 'admin_settings' }}" href="{{ url_for('admin_settings') }}">Pengaturan</a>
+  {% else %}
+    <a class="nav {{ 'on' if ep == 'dash_home' }}" href="{{ url_for('dash_home') }}">Ringkasan</a>
+    <a class="nav {{ 'on' if ep in ('dash_pos',) }}" href="{{ url_for('dash_pos') }}">Kasir</a>
+    <a class="nav {{ 'on' if ep == 'dash_menu' }}" href="{{ url_for('dash_menu') }}">Menu</a>
+    <a class="nav {{ 'on' if ep in ('dash_orders','dash_receipt') }}" href="{{ url_for('dash_orders') }}">Nota</a>
+    <a class="nav {{ 'on' if ep == 'dash_settings' }}" href="{{ url_for('dash_settings') }}">Pengaturan</a>
+  {% endif %}
+  <div class="sp"></div>
+  <form method="post" action="{{ url_for('logout') }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button>Keluar</button></form>
+</aside>
+<main class="content">
+  {% with msgs = get_flashed_messages(with_categories=true) %}
+    {% for cat, m in msgs %}<div class="flash {{ cat }}" role="status">{{ m }}</div>{% endfor %}
+  {% endwith %}
+  {% block content %}{% endblock %}
+</main>
+{% endblock %}

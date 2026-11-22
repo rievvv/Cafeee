@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+{% block title %}Kartu dan QR · Panel Cafeee{% endblock %}
+{% block content %}
+<div class="pagehead"><div><h1>Kartu dan QR</h1><p class="muted">Setiap kartu punya kode unik. Tujuan bisa diubah kapan saja tanpa menulis ulang NFC.</p></div></div>
+
+<details class="box" {{ 'open' if not tags and not qs }}>
+  <summary>Buat kartu baru</summary>
+  <form method="post" action="{{ url_for('admin_tags_create') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <div class="grid3">
+      <div class="field"><label for="kind">Paket</label>
+        <select id="kind" name="kind"><option value="basic">Basic: arahkan ke link ulasan</option><option value="pro">Pro: menu digital dan dashboard</option></select></div>
+      <div class="field"><label for="count">Jumlah kartu</label><input id="count" name="count" type="number" min="1" max="200" value="1"></div>
+      <div class="field"><label for="price">Harga jual (Rp)</label><input id="price" name="price" inputmode="numeric" placeholder="Basic {{ price_basic | num }}, Pro {{ price_pro | num }}"><p class="hint">Kosongkan untuk harga standar paket.</p></div>
+    </div>
+    <div class="grid2">
+      <div class="field"><label for="label">Label (opsional)</label><input id="label" name="label" placeholder="Contoh: Kopi Senja, meja 3"></div>
+      <div class="field"><label for="target_url">Link tujuan (paket Basic)</label><input id="target_url" name="target_url" inputmode="url" placeholder="Link ulasan Google toko"></div>
+    </div>
+    <div class="field" style="max-width:380px"><label for="cafe_id">Cafe (paket Pro)</label>
+      <select id="cafe_id" name="cafe_id"><option value="">Hubungkan nanti</option>{% for c in cafes %}<option value="{{ c.id }}">{{ c.name }}</option>{% endfor %}</select>
+      <p class="hint">Cafe dibuat dulu di menu Cafe pelanggan.</p></div>
+    <button class="btn">Buat kartu</button>
+  </form>
+</details>
+
+<form method="get" class="toolbar">
+  <div class="field"><label for="q">Cari</label><input id="q" name="q" value="{{ qs }}" placeholder="Kode, label, pembeli, cafe"></div>
+  <div class="field"><label for="fk">Paket</label>
+    <select id="fk" name="kind"><option value="">Semua</option><option value="basic" {{ 'selected' if kind == 'basic' }}>Basic</option><option value="pro" {{ 'selected' if kind == 'pro' }}>Pro</option></select></div>
+  <button class="btn ghost">Terapkan</button>
+  <button type="button" class="btn mie" id="printSel" data-url="{{ url_for('admin_qrsheet') }}">Cetak QR yang dicentang</button>
+</form>
+
+{% if tags %}
+<div class="tablewrap"><table>
+  <thead><tr><th><input type="checkbox" id="selAll" aria-label="Pilih semua"></th><th>Kode</th><th>Paket</th><th>Tujuan</th><th>Pembeli</th><th class="right">Harga</th><th class="right">Scan</th><th></th></tr></thead>
+  <tbody>
+  {% for t in tags %}
+  <tr>
+    <td><input type="checkbox" class="selTag" value="{{ t.id }}" aria-label="Pilih {{ t.code }}"></td>
+    <td class="num"><b>{{ t.code }}</b>{% if not t.active %} <span class="badge off">Nonaktif</span>{% endif %}</td>
+    <td><span class="badge {{ 'pro' if t.kind == 'pro' }}">{{ 'Pro' if t.kind == 'pro' else 'Basic' }}</span></td>
+    <td>
+      {{ t.label or '' }}
+      {% if t.kind == 'pro' %}<div class="small {{ 'muted' if t.cafe_name else '' }}">{{ t.cafe_name or 'Belum dihubungkan ke cafe' }}</div>
+      {% else %}<div class="small muted" style="max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ t.target_url or 'Belum ada link tujuan' }}</div>{% endif %}
+    </td>
+    <td>{% if t.sold_at %}{{ t.buyer_name or 'Terjual' }}{% else %}<span class="muted">Stok</span>{% endif %}</td>
+    <td class="right num">{{ t.price | num }}</td>
+    <td class="right num">{{ t.scans }}</td>
+    <td class="right" style="white-space:nowrap">
+      <button class="btn ghost sm" data-copy="{{ tag_link(t.code, 'n') }}">Salin link NFC</button>
+      <a class="btn ghost sm" href="{{ url_for('admin_tag', tag_id=t.id) }}">Atur</a>
+    </td>
+  </tr>
+  {% endfor %}
+  </tbody>
+</table></div>
+{% else %}
+<div class="empty">{% if qs or kind %}Tidak ada kartu yang cocok dengan pencarian.{% else %}Belum ada kartu. Buat kartu pertama di atas.{% endif %}</div>
+{% endif %}
+{% endblock %}

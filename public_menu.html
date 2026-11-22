@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Menu {{ cafe.name }}{% endblock %}
+{% block bodyclass %}guest{% endblock %}
+{% block body %}
+{% set owner = me and (me.role == 'admin' or me.cafe_id == cafe.id) %}
+<main class="strip">
+  <header class="strip-head">
+    {% if owner %}
+    <a class="lock open" href="{{ url_for('dash_home') }}" aria-label="Buka dashboard">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 7.5-2"/></svg>
+    </a>
+    {% else %}
+    <a class="lock" href="{{ url_for('login', cafe=cafe.slug, back='/c/' ~ tag.code) }}" aria-label="Masuk sebagai pemilik">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+    </a>
+    {% endif %}
+    <h1>{{ cafe.name }}</h1>
+    {% if cafe.address %}<p class="addr">{{ cafe.address }}</p>{% endif %}
+    {% if cafe.review_url %}<a class="btn mie sm" href="{{ cafe.review_url }}" rel="noopener">Beri ulasan di Google</a>{% endif %}
+  </header>
+
+  {% if groups %}
+  <nav class="chips" aria-label="Kategori">
+    {% for gr in groups %}<a class="chip" href="#cat-{{ gr.cat.id }}">{{ gr.cat.name }}</a>{% endfor %}
+  </nav>
+  <input id="menuSearch" type="search" placeholder="Cari menu" aria-label="Cari menu">
+  {% for gr in groups %}
+  <section class="menu-sec" id="cat-{{ gr.cat.id }}">
+    <h2>{{ gr.cat.name }}</h2>
+    <ul class="menu">
+      {% for i in gr['items'] %}
+      <li class="{{ '' if i.available else 'out' }}">
+        <span class="n">{{ i.name }}{% if i.description %}<small>{{ i.description }}</small>{% endif %}</span>
+        <span class="dots"></span><span class="p">{{ i.price | num }}</span>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+  {% endfor %}
+  <p id="noMatch" class="muted" hidden style="text-align:center;margin-top:1rem">Menu yang dicari tidak ditemukan.</p>
+  {% else %}
+  <p class="muted" style="text-align:center;margin:2rem 0">Menu belum diisi. Silakan tanya langsung ke kasir.</p>
+  {% endif %}
+
+  <footer class="strip-foot">Harga dalam rupiah. Dibuat dengan Cafeee.</footer>
+</main>
+{% endblock %}

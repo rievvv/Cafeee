@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}{{ title }} · Cafeee{% endblock %}
+{% block body %}
+<div class="center">
+  <div class="panel">
+    <h1>{{ title }}</h1>
+    <p class="muted" style="margin-top:.5rem">{{ text }}</p>
+    <p style="margin-top:1.2rem"><a class="btn ghost sm" href="{{ url_for('landing') }}">Ke beranda Cafeee</a></p>
+  </div>
+</div>
+{% endblock %}

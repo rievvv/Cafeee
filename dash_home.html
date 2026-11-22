@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+{% block title %}Ringkasan · {{ g.cafe.name }}{% endblock %}
+{% block content %}
+<div class="pagehead">
+  <div><h1>{{ g.cafe.name }}</h1><p class="muted">Ringkasan hari ini</p></div>
+  <a class="btn mie" href="{{ url_for('dash_pos') }}">Buka kasir</a>
+</div>
+
+<div class="stats">
+  <div class="stat"><b>{{ s_today | rp }}</b><span>Penjualan hari ini</span></div>
+  <div class="stat"><b>{{ n_today }}</b><span>Nota hari ini</span></div>
+  <div class="stat"><b>{{ n_items }}</b><span>Menu terdaftar</span></div>
+</div>
+
+<div class="two">
+  <section class="sec">
+    <h2>Penjualan 7 hari terakhir</h2>
+    {% if days | sum(attribute='s') %}
+    <div class="bars" role="img" aria-label="Grafik penjualan 7 hari">
+      {% for d in days %}<div class="{{ 'today' if loop.last }}" title="{{ d.s | rp }}"><i style="height:{{ d.h }}%"></i>{{ d.d }}</div>{% endfor %}
+    </div>
+    {% else %}
+    <div class="empty">Belum ada penjualan. Buat nota pertama dari halaman kasir.</div>
+    {% endif %}
+  </section>
+  <section class="sec">
+    <h2>Menu terlaris minggu ini</h2>
+    {% if best %}
+    <table><tbody>
+      {% for b in best %}<tr><td>{{ b.name }}</td><td class="right num">{{ b.qty }}x</td></tr>{% endfor %}
+    </tbody></table>
+    {% else %}<div class="empty">Belum ada data penjualan.</div>{% endif %}
+  </section>
+</div>
+
+<section class="sec">
+  <h2>Kartu dan QR menu Anda</h2>
+  {% if tags %}
+    {% for t in tags %}
+    <div style="display:flex;gap:1.5rem;flex-wrap:wrap;align-items:center;margin-bottom:1rem">
+      <span class="qrbox"><img src="{{ url_for('qr_image', code=t.code, fmt='svg') }}" alt="QR menu {{ t.code }}"></span>
+      <div>
+        <p><b>Kode {{ t.code }}</b> {% if not t.active %}<span class="badge off">Nonaktif</span>{% endif %}</p>
+        <p class="muted small">{{ t.week_scans }} kunjungan 7 hari terakhir</p>
+        <p style="margin:.5rem 0"><span class="copy">{{ tag_link(t.code, 'q') }}</span></p>
+        <a class="btn ghost sm" href="{{ url_for('qr_image', code=t.code, fmt='png', dl=1, px=24) }}">Unduh QR (PNG)</a>
+        <a class="btn ghost sm" href="{{ url_for('tag_public', code=t.code) }}" target="_blank" rel="noopener">Lihat menu pelanggan</a>
+      </div>
+    </div>
+    {% endfor %}
+  {% else %}
+    <div class="empty">Belum ada kartu yang terhubung ke cafe ini. Hubungi admin Cafeee untuk menghubungkan kartu.</div>
+  {% endif %}
+</section>
+{% endblock %}
