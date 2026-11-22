@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{% block title %}Pengaturan · {{ g.cafe.name }}{% endblock %}
+{% block content %}
+<div class="pagehead"><h1>Pengaturan</h1></div>
+
+<form method="post" style="max-width:640px">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="form" value="profil">
+  <h2 style="margin-bottom:.8rem">Profil tempat</h2>
+  <div class="field"><label for="name">Nama tempat</label><input id="name" name="name" value="{{ c.name }}" required maxlength="60"></div>
+  <div class="field"><label for="address">Alamat</label><input id="address" name="address" value="{{ c.address }}" maxlength="160"></div>
+  <div class="grid2">
+    <div class="field"><label for="phone">Telepon</label><input id="phone" name="phone" value="{{ c.phone }}" maxlength="30"></div>
+    <div class="field"><label for="review_url">Link ulasan Google (opsional)</label><input id="review_url" name="review_url" value="{{ c.review_url }}" placeholder="https://g.page/r/..." inputmode="url">
+      <p class="hint">Jika diisi, muncul tombol "Beri ulasan" di menu pelanggan.</p></div>
+  </div>
+  <h2 style="margin:1.2rem 0 .8rem">Nota</h2>
+  <div class="field"><label for="receipt_footer">Pesan di bawah nota</label><input id="receipt_footer" name="receipt_footer" value="{{ c.receipt_footer }}" maxlength="120"></div>
+  <div class="grid3">
+    <div class="field"><label for="paper_mm">Lebar kertas struk</label>
+      <select id="paper_mm" name="paper_mm"><option value="58" {{ 'selected' if c.paper_mm == 58 }}>58 mm</option><option value="80" {{ 'selected' if c.paper_mm == 80 }}>80 mm</option></select></div>
+    <div class="field"><label for="service_pct">Service (%)</label><input id="service_pct" name="service_pct" value="{{ c.service_pct | round(1) }}" inputmode="decimal"></div>
+    <div class="field"><label for="tax_pct">Pajak (%)</label><input id="tax_pct" name="tax_pct" value="{{ c.tax_pct | round(1) }}" inputmode="decimal"></div>
+  </div>
+  <button class="btn">Simpan pengaturan</button>
+</form>
+
+<section class="sec" style="max-width:640px">
+  <h2>Cetak ke printer struk</h2>
+  <ol class="steps">
+    <li>Pasang printer struk di komputer atau HP lewat USB atau Bluetooth, lalu pilih sebagai printer bawaan.</li>
+    <li>Di halaman kasir, tekan "Simpan dan cetak nota". Jendela cetak terbuka otomatis dengan ukuran sesuai lebar kertas di atas.</li>
+    <li>Agar langsung tercetak tanpa konfirmasi, buka Chrome dengan opsi <span class="copy">--kiosk-printing</span>.</li>
+  </ol>
+</section>
+
+<form method="post" class="sec" style="max-width:640px">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="form" value="sandi">
+  <h2>Ganti kata sandi</h2>
+  <div class="grid2">
+    <div class="field"><label for="old">Kata sandi lama</label><input id="old" name="old" type="password" autocomplete="current-password" required></div>
+    <div class="field"><label for="new">Kata sandi baru</label><input id="new" name="new" type="password" autocomplete="new-password" minlength="8" required></div>
+  </div>
+  <button class="btn ghost">Ganti kata sandi</button>
+</form>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends "layout.html" %}
+{% block title %}Ringkasan · Panel Cafeee{% endblock %}
+{% block content %}
+<div class="pagehead">
+  <div><h1>Ringkasan usaha</h1><p class="muted">Semua kartu, cafe, dan pemindaian di satu tempat.</p></div>
+  <a class="btn mie" href="{{ url_for('admin_tags') }}">Buat kartu baru</a>
+</div>
+
+<div class="stats">
+  <div class="stat"><b>{{ st.rev | rp }}</b><span>Pendapatan kartu terjual</span></div>
+  <div class="stat"><b>{{ st.sold or 0 }} <small style="font-size:1rem;font-weight:500">dari {{ st.n }}</small></b><span>Kartu terjual</span></div>
+  <div class="stat"><b>{{ n_cafes }}</b><span>Cafe dengan dashboard</span></div>
+  <div class="stat"><b>{{ total_scans | num }}</b><span>Total pemindaian</span></div>
+</div>
+
+<div class="two">
+  <section class="sec">
+    <h2>Pemindaian 14 hari terakhir</h2>
+    {% if total_scans %}
+    <div class="bars" role="img" aria-label="Grafik pemindaian 14 hari">
+      {% for d in days %}<div class="{{ 'today' if loop.last }}" title="{{ d.c }} pemindaian"><i style="height:{{ d.h }}%"></i>{{ d.d }}</div>{% endfor %}
+    </div>
+    {% else %}<div class="empty">Belum ada pemindaian. Coba tempel kartu ke HP untuk mengujinya.</div>{% endif %}
+  </section>
+  <section class="sec">
+    <h2>NFC atau QR?</h2>
+    {% set n = src.get('n', 0) %}{% set qq = src.get('q', 0) %}{% set x = src.get('x', 0) %}{% set tot = n + qq + x %}
+    {% if tot %}
+    <div class="split" role="img" aria-label="Proporsi sumber pemindaian">
+      <i style="width:{{ n / tot * 100 }}%;background:var(--roast)"></i><i style="width:{{ qq / tot * 100 }}%;background:var(--caramel)"></i><i style="width:{{ x / tot * 100 }}%;background:var(--latte)"></i>
+    </div>
+    <p><b>{{ n }}</b> lewat NFC &nbsp; <b>{{ qq }}</b> lewat QR &nbsp; <b>{{ x }}</b> lewat link lain</p>
+    {% else %}<div class="empty">Data muncul setelah ada pemindaian.</div>{% endif %}
+  </section>
+</div>
+
+<div class="two">
+  <section class="sec">
+    <h2>Perlu ditindaklanjuti</h2>
+    {% if todo %}
+    <table><tbody>
+    {% for t in todo %}
+      <tr><td class="num">{{ t.code }}</td>
+      <td>{% if t.kind == 'basic' %}Belum ada link tujuan{% else %}Belum dihubungkan ke cafe{% endif %}</td>
+      <td class="right"><a class="btn ghost sm" href="{{ url_for('admin_tag', tag_id=t.id) }}">Atur</a></td></tr>
+    {% endfor %}</tbody></table>
+    {% else %}<div class="empty">Semua kartu aktif sudah punya tujuan.</div>{% endif %}
+  </section>
+  <section class="sec">
+    <h2>Kartu paling ramai</h2>
+    {% if top %}<table><tbody>
+      {% for t in top %}<tr><td class="num"><a href="{{ url_for('admin_tags', q=t.code) }}">{{ t.code }}</a></td><td>{{ t.label or '-' }}</td><td class="right num">{{ t.c }}x</td></tr>{% endfor %}
+    </tbody></table>{% else %}<div class="empty">Belum ada data.</div>{% endif %}
+  </section>
+</div>
+
+{% if recent %}
+<section class="sec"><h2>Pemindaian terbaru</h2>
+  <table><tbody>
+  {% for s in recent %}<tr><td>{{ s.ts | tgl }}</td><td class="num">{{ s.code }}</td><td>{{ s.label or '-' }}</td>
+    <td>{{ {'n':'NFC','q':'QR','x':'Link'}[s.src] }}</td><td>{{ {'ios':'iPhone','android':'Android','lain':'Lainnya'}[s.device] }}</td></tr>{% endfor %}
+  </tbody></table>
+</section>
+{% endif %}
+{% endblock %}

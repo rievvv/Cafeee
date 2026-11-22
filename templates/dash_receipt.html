@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Nota {{ order.number }}</title>
+<style>
+  @page { size: {{ g.cafe.paper_mm }}mm auto; margin: 0; }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:#EADBC6}
+  body{font:12px/1.35 'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;color:#000}
+  .bar{display:flex;gap:8px;justify-content:center;padding:12px;font-family:system-ui,sans-serif}
+  .bar a,.bar button{font:600 14px system-ui,sans-serif;padding:8px 14px;border:2px solid #4B2E20;border-radius:6px;background:#4B2E20;color:#fff;text-decoration:none;cursor:pointer}
+  .bar a{background:#fff;color:#4B2E20}
+  .paper{width:{{ g.cafe.paper_mm }}mm;margin:0 auto 24px;background:#fff;padding:4mm 3mm 6mm}
+  .c{text-align:center} h1{font-size:14px;margin:0 0 2px;text-transform:none}
+  hr{border:0;border-top:1px dashed #000;margin:5px 0}
+  .r{display:flex;justify-content:space-between;gap:6px}
+  .item{margin:3px 0} .item .n{word-break:break-word}
+  .b{font-weight:600}
+  @media print{html,body{background:#fff}.bar{display:none}.paper{margin:0;width:auto}}
+</style>
+</head>
+<body>
+<div class="bar"><button onclick="window.print()">Cetak nota</button><a href="{{ url_for('dash_pos') }}">Kasir</a><a href="{{ url_for('dash_orders') }}">Riwayat nota</a></div>
+<div class="paper">
+  <div class="c"><h1>{{ g.cafe.name }}</h1>
+    {% if g.cafe.address %}<div>{{ g.cafe.address }}</div>{% endif %}
+    {% if g.cafe.phone %}<div>Telp {{ g.cafe.phone }}</div>{% endif %}</div>
+  <hr>
+  <div>No {{ order.number }}</div>
+  <div>{{ order.created_at[8:10] }}/{{ order.created_at[5:7] }}/{{ order.created_at[0:4] }} {{ order.created_at[11:16] }}</div>
+  {% if order.table_no %}<div>Meja: {{ order.table_no }}</div>{% endif %}
+  <hr>
+  {% for l in lines %}
+  <div class="item"><div class="n">{{ l.name }}</div>
+    <div class="r"><span>{{ l.qty }} x {{ l.price | num }}</span><span>{{ (l.qty * l.price) | num }}</span></div></div>
+  {% endfor %}
+  <hr>
+  <div class="r"><span>Subtotal</span><span>{{ order.subtotal | num }}</span></div>
+  {% if order.service %}<div class="r"><span>Service</span><span>{{ order.service | num }}</span></div>{% endif %}
+  {% if order.tax %}<div class="r"><span>Pajak</span><span>{{ order.tax | num }}</span></div>{% endif %}
+  <div class="r b" style="font-size:14px"><span>TOTAL</span><span>{{ order.total | num }}</span></div>
+  <div class="r"><span>{{ order.payment }}</span><span>{{ order.paid | num }}</span></div>
+  {% if order.change_amt %}<div class="r"><span>Kembali</span><span>{{ order.change_amt | num }}</span></div>{% endif %}
+  {% if order.note %}<hr><div>Catatan: {{ order.note }}</div>{% endif %}
+  <hr>
+  <div class="c">{{ g.cafe.receipt_footer }}</div>
+</div>
+{% if auto %}<script>window.addEventListener("load",function(){setTimeout(function(){window.print()},250)});</script>{% endif %}
+</body>
+</html>

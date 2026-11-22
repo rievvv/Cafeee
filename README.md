@@ -26,7 +26,37 @@ python manage.py demo        # cafe "Warmindo Berkah", login: berkah / berkah123
 python manage.py reset-admin SANDIBARU
 ```
 
-Uji otomatis: `python tests/test_flow.py`
+Uji otomatis (pasang dulu `pip install -r requirements-dev.txt`): `python tests/test_flow.py`
+
+## Mencoba lewat GitHub (tanpa install apa pun)
+
+GitHub Pages tidak bisa menjalankan Flask, jadi cara terbaik untuk mencoba alur lengkapnya adalah **GitHub Codespaces**: VS Code di browser dengan server Cafeee yang sudah menyala.
+
+1. Buat repository kosong di GitHub (misalnya `cafeee`), lalu dari folder proyek:
+   ```bash
+   git init
+   git add .
+   git commit -m "Cafeee"
+   git branch -M main
+   git remote add origin https://github.com/USERNAME/cafeee.git
+   git push -u origin main
+   ```
+   `data/` (database dan kunci rahasia) sudah diabaikan oleh `.gitignore`, jadi tidak ikut terunggah.
+2. Di halaman repository: tombol hijau **Code**, tab **Codespaces**, **Create codespace on main**.
+3. Tunggu proses pertama selesai (pemasangan paket dan data demo). Tab browser akan terbuka otomatis ke aplikasi. Jika tidak, buka tab **Ports** di VS Code dan klik ikon globe pada port **5000**.
+4. Masuk dengan akun uji coba berikut:
+
+   | Peran | Username | Kata sandi | Halaman |
+   |---|---|---|---|
+   | Pemilik Cafeee (admin) | `admin` | `admin12345` | `/login` |
+   | Cafe demo | `berkah` | `berkah123` | `/login` |
+
+   Kata sandi admin ini hanya untuk uji coba di Codespaces (diatur di `.devcontainer/devcontainer.json`). Jangan dipakai untuk produksi.
+5. Ubah kode di editor. Server berjalan dengan mode debug, jadi perubahan langsung termuat saat halaman dimuat ulang. Setelah puas: `git commit` dan `git push`.
+
+Setiap `push` juga menjalankan uji otomatis lewat **GitHub Actions** (tab **Actions** di repository), sehingga Anda tahu jika sebuah revisi merusak alur.
+
+Catatan: data di Codespaces bersifat uji coba dan bisa hilang jika codespace dihapus. Port 5000 bersifat privat (hanya Anda yang bisa membuka) kecuali Anda ubah sendiri menjadi publik.
 
 ## Wajib sebelum menulis kartu NFC: pasang di internet dengan domain tetap
 
@@ -91,4 +121,6 @@ manage.py     data demo dan reset sandi admin
 templates/    tampilan
 static/       CSS dan JS
 tests/        uji otomatis alur lengkap
+.devcontainer/  konfigurasi GitHub Codespaces
+.github/      uji otomatis (GitHub Actions)
 ```
