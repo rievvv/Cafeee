@@ -11,7 +11,7 @@ function route() {
   if (P.has('r')) return redirect(P.get('r'));
   if (P.has('admin')) return admin();
   if (P.has('c')) return menu(P.get('c'));
-  app.innerHTML = '<h1>Cafeee</h1><p>Scan tag di meja untuk melihat menu.</p>';
+  app.innerHTML = '<h1>Cafeee</h1><p>Scan tag di meja untuk melihat menu.</p><a class="ghost" href="?admin">Masuk admin</a>';
 }
 
 async function redirect(slug) {

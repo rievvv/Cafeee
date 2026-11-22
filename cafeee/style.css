@@ -1,0 +1,28 @@
+:root{--espresso:#1e110a;--roast:#3b2314;--mocha:#6b4430;--caramel:#d9a35f;--latte:#ead7bd}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;color:var(--latte);font:16px/1.5 Figtree,sans-serif;background:linear-gradient(180deg,var(--espresso),var(--roast) 55%,var(--mocha)) fixed}
+#app{max-width:640px;margin:0 auto;padding:1.5rem 1.2rem 4rem}
+h1,h2,h3{font-family:Fraunces,serif;margin:0}
+h1{font-size:2.2rem;font-weight:800}
+h2{font-size:1.15rem;color:var(--caramel);margin:2rem 0 .3rem}
+.top{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding-bottom:1rem;border-bottom:1px solid #d9a35f55}
+.row{display:flex;align-items:baseline;gap:.5rem;padding:.55rem 0}
+.row i{flex:1;border-bottom:2px dotted #d9a35f66}
+.row b{font-weight:600}
+.row.ed{flex-wrap:wrap;gap:.4rem;border-bottom:1px solid #d9a35f22}
+.row.ed input{flex:1 1 120px}
+input,select{background:#0006;border:1px solid #d9a35f55;border-radius:8px;color:var(--latte);padding:.6rem .7rem;font:inherit;min-width:0}
+.add{display:flex;flex-wrap:wrap;gap:.5rem;margin:1rem 0}.add input,.add select{flex:1 1 140px}
+.btn,.ghost{font:inherit;font-weight:600;border-radius:999px;padding:.6rem 1.1rem;cursor:pointer;border:1px solid transparent;text-decoration:none;display:inline-block}
+.btn{background:linear-gradient(135deg,#e8b873,#8a5a2b);color:var(--espresso);margin-top:1.5rem}
+.ghost{background:none;color:var(--latte);border-color:#d9a35f77;padding:.4rem .8rem;margin-top:0}
+.btn:focus-visible,.ghost:focus-visible,input:focus-visible{outline:2px solid var(--caramel);outline-offset:2px}
+#lock{font-size:1.2rem;background:none;border:1px solid #d9a35f77;border-radius:50%;width:2.6rem;height:2.6rem;cursor:pointer}
+.empty,.err{color:#e9a58f}.empty{padding:2rem 0}
+#modal{position:fixed;inset:0;background:#000a;display:grid;place-items:center;padding:1rem}#modal[hidden]{display:none}
+.card{background:linear-gradient(160deg,var(--roast),var(--espresso));border:1px solid #d9a35f55;border-radius:16px;padding:1.4rem;width:min(360px,100%);display:grid;gap:.6rem;margin-top:1rem}
+.card .btn{margin-top:.4rem}
+#q canvas,#q img{width:220px;height:220px;background:#fff;padding:8px;border-radius:8px}
+.receipt{display:none}
+@page{size:58mm auto;margin:0}
+@media print{body *{visibility:hidden}.receipt,.receipt *{visibility:visible}.receipt{display:block;position:absolute;left:0;top:0;width:58mm;padding:3mm;color:#000;background:#fff;font:12px monospace}.receipt div{display:flex;justify-content:space-between;flex-wrap:wrap}}
