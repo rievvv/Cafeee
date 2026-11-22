@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="csrf" content="8c20569f725a2255ea8cb906740d33e6">
+<meta name="theme-color" content="#2A1B14">
+<title>Pengaturan · Panel Cafeee</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=Nunito+Sans:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="static/cafeee.css">
+
+</head>
+<body class="app">
+
+
+<aside class="rail">
+  <a class="brand" href="admin-ringkasan.html">Cafee<i>e</i></a>
+  <div class="who">
+    Panel pemilik Cafeee
+  </div>
+  
+    <a class="nav " href="admin-ringkasan.html">Ringkasan</a>
+    <a class="nav " href="admin-kartu.html">Kartu dan QR</a>
+    <a class="nav " href="admin-cafe.html">Cafe pelanggan</a>
+    <a class="nav on" href="admin-pengaturan.html">Pengaturan</a>
+  
+  <div class="sp"></div>
+  <form method="post" action="#"><input type="hidden" name="csrf_token" value="8c20569f725a2255ea8cb906740d33e6"><button>Keluar</button></form>
+</aside>
+<main class="content">
+  
+    
+  
+  
+<div class="pagehead"><h1>Pengaturan</h1></div>
+
+<form method="post" style="max-width:620px">
+  <input type="hidden" name="csrf_token" value="8c20569f725a2255ea8cb906740d33e6"><input type="hidden" name="form" value="umum">
+  <div class="field"><label for="base_url">Alamat situs Cafeee</label>
+    <input id="base_url" name="base_url" value="" inputmode="url" placeholder="https://cafeee.id">
+    <p class="hint">Dipakai untuk membuat link NFC dan QR. Saat ini: <span class="copy">https://cafeee.example</span></p></div>
+  
+  <div class="grid2">
+    <div class="field"><label for="pb">Harga standar paket Basic (Rp)</label><input id="pb" name="price_basic" value="100000" inputmode="numeric"></div>
+    <div class="field"><label for="pp">Harga standar paket Pro (Rp)</label><input id="pp" name="price_pro" value="200000" inputmode="numeric"></div>
+  </div>
+  <button class="btn">Simpan pengaturan</button>
+</form>
+
+<form method="post" class="sec" style="max-width:620px">
+  <input type="hidden" name="csrf_token" value="8c20569f725a2255ea8cb906740d33e6"><input type="hidden" name="form" value="sandi">
+  <h2>Ganti kata sandi admin</h2>
+  <div class="grid2">
+    <div class="field"><label for="old">Kata sandi lama</label><input id="old" name="old" type="password" autocomplete="current-password" required></div>
+    <div class="field"><label for="new">Kata sandi baru</label><input id="new" name="new" type="password" autocomplete="new-password" minlength="8" required></div>
+  </div>
+  <button class="btn ghost">Ganti kata sandi</button>
+</form>
+
+</main>
+
+<script src="static/cafeee.js"></script>
+
+<div style="position:fixed;left:0;right:0;bottom:0;z-index:9999;background:#2A1B14;color:#F1E4D2;font:600 13px/1.3 system-ui,sans-serif;padding:8px 12px;display:flex;gap:12px;justify-content:center;align-items:center;flex-wrap:wrap" class="noprint">Pratinjau statis: tombol dan formulir tidak berfungsi. <a href="../index.html" style="color:#E8C088">Kembali ke galeri</a></div></body>
+</html>

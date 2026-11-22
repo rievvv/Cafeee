@@ -28,6 +28,16 @@ python manage.py reset-admin SANDIBARU
 
 Uji otomatis (pasang dulu `pip install -r requirements-dev.txt`): `python tests/test_flow.py`
 
+## Melihat tampilan di GitHub Pages (paling cepat)
+
+Folder `preview/` dan `index.html` berisi pratinjau statis semua halaman dengan data contoh. Setelah di-`push`:
+
+1. Di repository GitHub: **Settings**, **Pages**.
+2. **Source**: *Deploy from a branch*. **Branch**: `main`, folder `/ (root)`. Simpan.
+3. Tunggu 1 sampai 2 menit, lalu buka `https://USERNAME.github.io/Cafeee/`. Anda akan melihat galeri halaman, bukan README lagi.
+
+Ini hanya **tampilan**: tombol simpan dan formulir tidak berfungsi. Setelah mengubah template atau CSS, perbarui pratinjau dengan `python tools/build_preview.py`, lalu `push` lagi. Untuk menguji alur lengkap, pakai Codespaces atau Render di bawah.
+
 ## Mencoba lewat GitHub (tanpa install apa pun)
 
 GitHub Pages tidak bisa menjalankan Flask, jadi cara terbaik untuk mencoba alur lengkapnya adalah **GitHub Codespaces**: VS Code di browser dengan server Cafeee yang sudah menyala.
@@ -131,6 +141,8 @@ manage.py     data demo dan reset sandi admin
 templates/    tampilan
 static/       CSS dan JS
 tests/        uji otomatis alur lengkap
+tools/        pembuat pratinjau statis untuk GitHub Pages
+preview/      hasil pratinjau (dibuat otomatis oleh tools/build_preview.py)
 .devcontainer/  konfigurasi GitHub Codespaces
 .github/      uji otomatis (GitHub Actions)
 ```

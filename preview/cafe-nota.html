@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="csrf" content="81c175f9dd01067d1882441e52b05a57">
+<meta name="theme-color" content="#2A1B14">
+<title>Nota · Warmindo Berkah</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=Nunito+Sans:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="static/cafeee.css">
+
+</head>
+<body class="app">
+
+
+<aside class="rail">
+  <a class="brand" href="cafe-ringkasan.html">Cafee<i>e</i></a>
+  <div class="who">
+    Warmindo Berkah
+  </div>
+  
+    <a class="nav " href="cafe-ringkasan.html">Ringkasan</a>
+    <a class="nav " href="cafe-kasir.html">Kasir</a>
+    <a class="nav " href="cafe-menu.html">Menu</a>
+    <a class="nav on" href="cafe-nota.html">Nota</a>
+    <a class="nav " href="cafe-pengaturan.html">Pengaturan</a>
+  
+  <div class="sp"></div>
+  <form method="post" action="#"><input type="hidden" name="csrf_token" value="81c175f9dd01067d1882441e52b05a57"><button>Keluar</button></form>
+</aside>
+<main class="content">
+  
+    
+  
+  
+<div class="pagehead">
+  <div><h1>Nota</h1><p class="muted">Riwayat penjualan per hari.</p></div>
+  <form method="get" class="toolbar" style="margin:0">
+    <div class="field"><label for="tgl">Tanggal</label><input id="tgl" type="date" name="tgl" value="2026-11-23"></div>
+    <button class="btn">Tampilkan</button>
+  </form>
+</div>
+
+<div class="tablewrap"><table>
+  <thead><tr><th>Nomor</th><th>Jam</th><th>Meja</th><th>Bayar</th><th class="right">Total</th><th></th></tr></thead>
+  <tbody>
+  
+  <tr>
+    <td class="num">261123-003</td><td>15:15</td><td>Meja 3</td><td>Tunai</td>
+    <td class="right num">Rp 20.000</td>
+    <td class="right" style="white-space:nowrap">
+      <a class="btn ghost sm" href="cafe-nota-detail.html">Lihat dan cetak</a>
+      <form method="post" action="#" style="display:inline" data-confirm="Hapus nota 261123-003? Penjualan hari ini ikut berkurang.">
+        <input type="hidden" name="csrf_token" value="81c175f9dd01067d1882441e52b05a57"><button class="btn ghost sm">Hapus</button></form>
+    </td>
+  </tr>
+  
+  <tr>
+    <td class="num">261123-002</td><td>12:15</td><td>Meja 2</td><td>QRIS</td>
+    <td class="right num">Rp 28.000</td>
+    <td class="right" style="white-space:nowrap">
+      <a class="btn ghost sm" href="#">Lihat dan cetak</a>
+      <form method="post" action="#" style="display:inline" data-confirm="Hapus nota 261123-002? Penjualan hari ini ikut berkurang.">
+        <input type="hidden" name="csrf_token" value="81c175f9dd01067d1882441e52b05a57"><button class="btn ghost sm">Hapus</button></form>
+    </td>
+  </tr>
+  
+  <tr>
+    <td class="num">261123-001</td><td>09:15</td><td>Meja 1</td><td>Tunai</td>
+    <td class="right num">Rp 24.000</td>
+    <td class="right" style="white-space:nowrap">
+      <a class="btn ghost sm" href="#">Lihat dan cetak</a>
+      <form method="post" action="#" style="display:inline" data-confirm="Hapus nota 261123-001? Penjualan hari ini ikut berkurang.">
+        <input type="hidden" name="csrf_token" value="81c175f9dd01067d1882441e52b05a57"><button class="btn ghost sm">Hapus</button></form>
+    </td>
+  </tr>
+  
+  </tbody>
+  <tfoot><tr><td colspan="4"><b>Total 3 nota</b></td><td class="right num"><b>Rp 72.000</b></td><td></td></tr></tfoot>
+</table></div>
+
+
+</main>
+
+<script src="static/cafeee.js"></script>
+
+<div style="position:fixed;left:0;right:0;bottom:0;z-index:9999;background:#2A1B14;color:#F1E4D2;font:600 13px/1.3 system-ui,sans-serif;padding:8px 12px;display:flex;gap:12px;justify-content:center;align-items:center;flex-wrap:wrap" class="noprint">Pratinjau statis: tombol dan formulir tidak berfungsi. <a href="../index.html" style="color:#E8C088">Kembali ke galeri</a></div></body>
+</html>
