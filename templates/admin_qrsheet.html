@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block title %}Lembar cetak QR · Panel Cafeee{% endblock %}
+{% block content %}
+<div class="pagehead noprint">
+  <div><h1>Lembar cetak QR</h1><p class="muted">{{ tags | length }} kartu. Cetak di kertas stiker, atau unduh QR satuan untuk dimasukkan ke desain stiker Anda.</p></div>
+  <div style="display:flex;gap:.5rem;align-items:flex-end;flex-wrap:wrap">
+    <form method="get" class="toolbar" style="margin:0">
+      <input type="hidden" name="ids" value="{{ ids }}">
+      <div class="field"><label for="cm">Ukuran QR</label>
+        <select id="cm" name="cm" onchange="this.form.submit()">{% for s in (2,3,4,5,6,8) %}<option value="{{ s }}" {{ 'selected' if s == size }}>{{ s }} cm</option>{% endfor %}</select></div>
+    </form>
+    <button class="btn mie" onclick="window.print()">Cetak</button>
+  </div>
+</div>
+
+<div class="sheet" style="--qr:{{ size }}cm;--cell:{{ size + 1 }}cm">
+  {% for t in tags %}
+  <div class="cutcell"><img src="{{ url_for('qr_image', code=t.code, fmt='svg') }}" alt="QR {{ t.code }}"><b>{{ t.code }}</b></div>
+  {% endfor %}
+</div>
+
+<section class="sec noprint">
+  <h2>Link NFC untuk ditulis dengan NFC Tools</h2>
+  <div class="tablewrap"><table><thead><tr><th>Kode</th><th>Link</th><th></th></tr></thead><tbody>
+    {% for t in tags %}<tr><td class="num"><b>{{ t.code }}</b></td><td><span class="copy">{{ tag_link(t.code, 'n') }}</span></td>
+      <td class="right"><button class="btn ghost sm" data-copy="{{ tag_link(t.code, 'n') }}">Salin</button></td></tr>{% endfor %}
+  </tbody></table></div>
+</section>
+{% endblock %}
