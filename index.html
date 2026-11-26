@@ -1,0 +1,19 @@
+<!DOCTYPE html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cafeee — Tap, scan, seduh ulasan</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600&family=Fraunces:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css"></head>
+<body data-page="login">
+<section class="coffee hero">
+  <div class="brand">Cafeee</div>
+  <h1 style="margin-top:40px">Satu tap, ulasan bintang lima.</h1>
+  <p>Kartu NFC dan QR untuk cafe & warmindo. Pelanggan langsung ke Google Review, atau buka menu digital yang bisa kamu atur sendiri.</p>
+  <button class="btn light" id="openLogin">Masuk ke dashboard</button>
+</section>
+<main class="wrap grid">
+  <div class="panel"><h3>Paket Review — 100rb</h3><p>Kartu NFC + stiker QR yang mengarah ke Google Review tokomu.</p></div>
+  <div class="panel"><h3>Paket Menu — 200rb</h3><p>Semua paket Review, plus menu digital, dashboard harga, dan cetak nota struk.</p></div>
+</main>
+<div class="modal" id="loginModal"><div class="panel"><h3>Masuk</h3>
+<label>Username</label><input id="u" autocomplete="username"><label>Password</label><input id="p" type="password" autocomplete="current-password">
+<div class="msg" id="msg"></div><div class="row"><button class="btn" id="go">Masuk</button><button class="btn ghost" id="x">Batal</button></div></div></div>
+<script src="app.js"></script><script src="script.js"></script></body></html>
